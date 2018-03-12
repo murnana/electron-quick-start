@@ -10,5 +10,9 @@
         }
     },
     "extends": "eslint:all",
-    "rules": {}
+    "rules": {
+        "one-var":["error", {"separateRequires": true}],
+        "no-sync":["error", { "allowAtRootLevel": true }],
+        "no-magic-numbers":["error", {"ignore": [0]}]
+    }
 }
