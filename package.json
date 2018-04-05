@@ -4,7 +4,9 @@
   "description": "fork from https://github.com/electron/electron-quick-start",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "prestart": "gulp package-electron:pre-build",
+    "start": "electron ./dist/",
+    "prepublish": "gulp package-electron:zip"
   },
   "engines": {
     "node": "^8.9.4",

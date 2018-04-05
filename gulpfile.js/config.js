@@ -1,17 +1,13 @@
 module.exports = {
 
     "package-electron": {
-        "ignore-list": [
-
-            ".vscode",
-            ".git",
-            "gulpfile.js",
-            "node_modules",
-            "/packages($|/)",
-            ".gitignore",
-            "package-lock.json"
-
+        "src": [
+            "./src/**/*",
+            "./package.json"
         ],
+        "temp-path": "dist",
+        "icon": undefined,
+        "ignore-list": [],
         "out-dir": "packages",
         "zip-name-temp": "{os}-{cpu}.zip"
     }

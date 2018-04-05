@@ -16,6 +16,12 @@ let taskNames = {
     "zip": []
 };
 
+gulp.task(taskName("pre-build"),
+    () => del([config["temp-path"]]).
+        then(() => gulp.
+            src(config.src).
+            pipe(gulp.dest(config["temp-path"]))));
+
 // os,cpu毎にタスク作成
 packageJson.os.map((os) => packageJson.cpu.map((cpu) => {
 
@@ -50,13 +56,16 @@ packageJson.os.map((os) => packageJson.cpu.map((cpu) => {
     gulp.task(names["clean-package"], (done) => del([packagePath], () => done()));
 
     // package
-    gulp.task(names.package, [names["clean-package"]], () => packager({
+    gulp.task(names.package, [taskName("pre-build"), names["clean-package"]], () => packager({
         "arch": cpu,
+        "appVersion": packageJson.version,
         "asar": true,
-        "dir": ".",
+        "dir": config["temp-path"],
+        "icon": config.icon,
         "ignore": config["ignore-list"],
         "name": packageJson.name,
         "out": config["out-dir"],
+        "packageManager": "npm",
         "platform": os
     }));
 
