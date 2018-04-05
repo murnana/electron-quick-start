@@ -1,4 +1,5 @@
 const
+    config = require("../config").zip,
     del = require("del"),
     gulp = require("gulp"),
     packElec = require("./package-electron"),
@@ -6,20 +7,12 @@ const
     zip = require("gulp-zip");
 
 const
-    inputPathTemp = "package/name-os-cpu/**".
-        replace(/package/, packElec["out-path"]).
-        replace(/%s/, "os").
-        replace(/name/, packageJson.name),
-    outPathTemp = "os-cpu.zip",
-    outputDir = "dist",
-    taskNameTemp = "zip:os-cpu";
+    inputPathTemp = "{input-path}/{name}-{os}-{cpu}/**".
+        replace(/{input-path}/, config["input-path"]).
+        replace(/{name}/, packageJson.name),
+    taskNameTemp = "zip:{os}-{cpu}";
 
-module.exports = {
-    "output-dir": outputDir,
-    "task-name": taskNameTemp
-};
-
-gulp.task("zip:clean", (done) => del([outputDir], () => done()));
+gulp.task("zip:clean", (done) => del([config["output-dir"]], () => done()));
 
 const taskNames = packageJson.os.map((os) => {
 
@@ -29,9 +22,9 @@ const taskNames = packageJson.os.map((os) => {
     return packageJson.cpu.map((cpu) => {
 
         const
-            inputPath = inputPathTemp.replace(/os/g, os).replace(/cpu/, cpu),
-            outputPath = outPathTemp.replace(/os/, os).replace(/cpu/, cpu),
-            taskName = taskNameTemp.replace(/os/, os).replace(/cpu/, cpu);
+            inputPath = inputPathTemp.replace(/{os}/g, os).replace(/{cpu}/, cpu),
+            outputPath = config["out-path-temp"].replace(/{os}/, os).replace(/{cpu}/, cpu),
+            taskName = taskNameTemp.replace(/{os}/, os).replace(/{cpu}/, cpu);
         gulp.task(
             taskName, [
                 "zip:clean",
@@ -39,7 +32,7 @@ const taskNames = packageJson.os.map((os) => {
             ],
             () => gulp.src([inputPath], {"src": inputPath}).
                 pipe(zip(outputPath)).
-                pipe(gulp.dest(outputDir))
+                pipe(gulp.dest(config["output-dir"]))
         );
 
         return taskName;

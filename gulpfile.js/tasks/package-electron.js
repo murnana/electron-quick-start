@@ -1,34 +1,19 @@
 const
+    config = require("../config")["package-electron"],
     del = require("del"),
     gulp = require("gulp"),
     packageJson = require("./package-json-data"),
     packager = require("electron-packager");
 
-const
-    ignoreList = [
-
-        ".vscode",
-        ".git",
-        "dist",
-        "gulpfile.js",
-        "node_modules",
-        "/package($|/)",
-        ".gitignore",
-        "package-lock.json"
-
-    ],
-    outDir = "package",
-    outPath = "out/%s".replace(/out/, outDir),
-    taskNameTemp = "package:%s";
+const taskNameTemp = "package:%s";
 
 module.exports = {
 
-    "out-path": outPath,
     "taskName": taskNameTemp
 
 };
 
-gulp.task("package:clean", (done) => del([outDir], () => done()));
+gulp.task("package:clean", (done) => del([config["out-dir"]], () => done()));
 
 const taskNames = packageJson.os.map((os) => {
 
@@ -37,9 +22,9 @@ const taskNames = packageJson.os.map((os) => {
         "arch": packageJson.cpu,
         "asar": true,
         "dir": ".",
-        "ignore": ignoreList,
+        "ignore": config["ignore-list"],
         "name": packageJson.name,
-        "out": outPath.replace(/%s/, os),
+        "out": config["out-path"],
         "platform": os
     }));
     return taskName;
