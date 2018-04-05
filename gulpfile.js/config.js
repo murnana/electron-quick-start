@@ -5,22 +5,15 @@ module.exports = {
 
             ".vscode",
             ".git",
-            "dist",
             "gulpfile.js",
             "node_modules",
-            "/package($|/)",
+            "/packages($|/)",
             ".gitignore",
             "package-lock.json"
 
         ],
-        "out-dir": "package",
-        "out-path": "packages"
-    },
-
-    "zip": {
-        "input-path": "packages",
-        "out-path-temp": "{os}-{cpu}.zip",
-        "output-dir": "dist",
+        "out-dir": "packages",
+        "zip-name-temp": "{os}-{cpu}.zip"
     }
 
 };
