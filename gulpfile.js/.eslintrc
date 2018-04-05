@@ -9,10 +9,6 @@
             "impliedStrict": true
         }
     },
-    "extends": "eslint:all",
-    "rules": {
-        "one-var":["error", {"separateRequires": true}],
-        "no-sync":["error", { "allowAtRootLevel": true }],
-        "no-magic-numbers":["error", {"ignore": [0]}]
-    }
+    "extends": "eslint:recommended",
+    "rules": {}
 }
